@@ -1,10 +1,11 @@
 # Web Template - Full-Stack Development Starter
 
-A modern, production-ready full-stack web development template built with React, Node.js, Express, MySQL, and Tailwind CSS. This template provides a solid foundation for building scalable web applications with best practices baked in.
+A modern, production-ready full-stack web development template built with **TypeScript**, React, Node.js, Express, MySQL, and Tailwind CSS. This template provides a solid foundation for building scalable web applications with best practices and full type safety.
 
 ## 🚀 Tech Stack
 
 ### Backend
+- **TypeScript** - Type-safe JavaScript
 - **Node.js** - JavaScript runtime
 - **Express** - Fast, minimalist web framework
 - **MySQL** - Reliable relational database
@@ -13,6 +14,7 @@ A modern, production-ready full-stack web development template built with React,
 - **dotenv** - Environment variable management
 
 ### Frontend
+- **TypeScript** - Type-safe JavaScript
 - **React 18** - Modern UI library
 - **Vite** - Next-generation frontend tooling
 - **Tailwind CSS** - Utility-first CSS framework
@@ -107,11 +109,17 @@ npm run seed
 # From backend directory
 cd backend
 
-# Development mode (with auto-reload)
+# Development mode (with auto-reload using tsx)
 npm run dev
 
-# Production mode
+# Build TypeScript
+npm run build
+
+# Production mode (requires build first)
 npm start
+
+# Type check
+npm run type-check
 ```
 
 The backend server will start on `http://localhost:5000`
@@ -124,6 +132,12 @@ cd frontend
 
 # Start development server
 npm run dev
+
+# Build for production
+npm run build
+
+# Type check
+npm run type-check
 ```
 
 The frontend will start on `http://localhost:5173` and automatically open in your browser.
@@ -135,19 +149,20 @@ web-template/
 ├── backend/
 │   ├── src/
 │   │   ├── config/
-│   │   │   └── database.js          # Database configuration
+│   │   │   └── database.ts          # Database configuration
 │   │   ├── controllers/
-│   │   │   └── exampleController.js # Business logic
+│   │   │   └── exampleController.ts # Business logic
 │   │   ├── routes/
-│   │   │   ├── index.js             # Route aggregator
-│   │   │   └── exampleRoutes.js     # User routes
+│   │   │   ├── index.ts             # Route aggregator
+│   │   │   └── exampleRoutes.ts     # User routes
 │   │   ├── middleware/
-│   │   │   └── errorHandler.js      # Global error handler
-│   │   └── server.js                # Express app setup
+│   │   │   └── errorHandler.ts      # Global error handler
+│   │   └── server.ts                # Express app setup
 │   ├── db/
 │   │   ├── migrations/              # Database migrations
 │   │   └── seeds/                   # Database seeds
-│   ├── knexfile.js                  # Knex configuration
+│   ├── knexfile.ts                  # Knex configuration
+│   ├── tsconfig.json                # TypeScript configuration
 │   ├── package.json
 │   ├── .env.example
 │   └── .gitignore
@@ -155,21 +170,24 @@ web-template/
 ├── frontend/
 │   ├── src/
 │   │   ├── api/
-│   │   │   └── axios.js             # API client setup
+│   │   │   └── axios.ts             # API client setup
 │   │   ├── components/
 │   │   │   ├── common/
-│   │   │   │   ├── Header.jsx       # Navigation header
-│   │   │   │   └── Footer.jsx       # Page footer
-│   │   │   └── ExampleComponent.jsx # CRUD component
+│   │   │   │   ├── Header.tsx       # Navigation header
+│   │   │   │   └── Footer.tsx       # Page footer
+│   │   │   └── ExampleComponent.tsx # CRUD component
 │   │   ├── pages/
-│   │   │   ├── Home.jsx             # Home page
-│   │   │   └── About.jsx            # About page
-│   │   ├── App.jsx                  # Main app component
-│   │   ├── main.jsx                 # App entry point
+│   │   │   ├── Home.tsx             # Home page
+│   │   │   └── About.tsx            # About page
+│   │   ├── App.tsx                  # Main app component
+│   │   ├── main.tsx                 # App entry point
+│   │   ├── vite-env.d.ts            # Vite environment types
 │   │   └── index.css                # Global styles
 │   ├── public/                      # Static assets
 │   ├── index.html                   # HTML template
-│   ├── vite.config.js               # Vite configuration
+│   ├── vite.config.ts               # Vite configuration
+│   ├── tsconfig.json                # TypeScript configuration
+│   ├── tsconfig.node.json           # TypeScript Node configuration
 │   ├── tailwind.config.js           # Tailwind configuration
 │   ├── postcss.config.js            # PostCSS configuration
 │   ├── package.json
@@ -251,23 +269,27 @@ VITE_API_URL=http://localhost:5000/api
 
 | Script | Command | Description |
 |--------|---------|-------------|
-| start | `npm start` | Start production server |
-| dev | `npm run dev` | Start development server with auto-reload |
+| build | `npm run build` | Compile TypeScript to JavaScript |
+| start | `npm start` | Start production server (requires build) |
+| dev | `npm run dev` | Start development server with auto-reload (tsx) |
 | migrate | `npm run migrate` | Run database migrations |
 | rollback | `npm run rollback` | Rollback last migration |
 | seed | `npm run seed` | Seed database with sample data |
+| type-check | `npm run type-check` | Check TypeScript types without emitting |
 
 ### Frontend Scripts
 
 | Script | Command | Description |
 |--------|---------|-------------|
 | dev | `npm run dev` | Start development server |
-| build | `npm run build` | Build for production |
+| build | `npm run build` | Type check and build for production |
 | preview | `npm run preview` | Preview production build |
 | lint | `npm run lint` | Run ESLint |
+| type-check | `npm run type-check` | Check TypeScript types without emitting |
 
 ## 🎨 Features
 
+- ✅ **TypeScript** - Full type safety across backend and frontend
 - ✅ **RESTful API** - Clean API architecture following REST conventions
 - ✅ **Database Migrations** - Version control for database schema
 - ✅ **Error Handling** - Comprehensive error handling and validation
@@ -284,26 +306,29 @@ VITE_API_URL=http://localhost:5000/api
 1. **Database Changes**: Create a new migration file
    ```bash
    cd backend
-   npx knex migrate:make migration_name
+   npx knex migrate:make migration_name --knexfile knexfile.ts
    ```
 
-2. **API Development**: Add controllers and routes in `backend/src/`
+2. **API Development**: Add controllers and routes in `backend/src/` with TypeScript types
 
-3. **Frontend Components**: Create React components in `frontend/src/components/`
+3. **Frontend Components**: Create React components in `frontend/src/components/` with TypeScript
 
-4. **Styling**: Use Tailwind utility classes or extend the theme in `tailwind.config.js`
+4. **Type Safety**: Use interfaces and types for props, state, and API responses
+
+5. **Styling**: Use Tailwind utility classes or extend the theme in `tailwind.config.js`
 
 ## 🚢 Deployment
 
 ### Backend Deployment
 
-1. Set environment variables on your hosting platform
-2. Run migrations: `npm run migrate`
-3. Start the server: `npm start`
+1. Build TypeScript: `npm run build`
+2. Set environment variables on your hosting platform
+3. Run migrations: `npm run migrate`
+4. Start the server: `npm start`
 
 ### Frontend Deployment
 
-1. Build the application: `npm run build`
+1. Build the application: `npm run build` (includes TypeScript compilation)
 2. Deploy the `dist/` folder to your static hosting service (Netlify, Vercel, etc.)
 3. Update `VITE_API_URL` to point to your production API
 
@@ -323,6 +348,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
+- TypeScript Team for bringing type safety to JavaScript
 - React Team for the amazing UI library
 - Express Team for the web framework
 - Tailwind CSS for the utility-first CSS framework

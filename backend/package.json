@@ -1,0 +1,42 @@
+{
+  "name": "web-template-backend",
+  "version": "1.0.0",
+  "description": "Backend API for web template using Express, MySQL, and Knex with TypeScript",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "migrate": "knex migrate:latest --knexfile knexfile.ts",
+    "rollback": "knex migrate:rollback --knexfile knexfile.ts",
+    "seed": "knex seed:run --knexfile knexfile.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "express",
+    "mysql",
+    "knex",
+    "rest-api",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5",
+    "knex": "^3.0.1",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.6",
+    "nodemon": "^3.0.2",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

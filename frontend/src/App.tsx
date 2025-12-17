@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/common/Header.tsx';
-import Footer from './components/common/Footer.tsx';
-import Home from './pages/Home.tsx';
-import About from './pages/About.tsx';
+import Header from './components/common/Header';
+import Footer from './components/common/Footer';
+import Home from './pages/Home';
+import About from './pages/About';
 
 function App(): JSX.Element {
   return (

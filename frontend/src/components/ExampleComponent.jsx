@@ -150,14 +150,14 @@ function ExampleComponent() {
       </form>
 
       {/* Loading Spinner */}
-      {loading && (
+      {loading && users.length === 0 && (
         <div className="flex justify-center py-8">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
         </div>
       )}
 
       {/* Users List */}
-      {!loading && users.length > 0 && (
+      {users.length > 0 && (
         <div>
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Users List</h3>
           <div className="space-y-3">
@@ -184,7 +184,7 @@ function ExampleComponent() {
       )}
 
       {/* Empty State */}
-      {!loading && users.length === 0 && (
+      {users.length === 0 && !loading && (
         <div className="text-center py-8">
           <p className="text-gray-500">No users found. Create one above!</p>
         </div>

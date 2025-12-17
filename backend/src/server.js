@@ -75,11 +75,11 @@ app.use(errorHandler);
  */
 app.listen(PORT, () => {
   console.log(`
-╔════════════════════════════════════════╗
-║   Server running in ${NODE_ENV} mode   
-║   Port: ${PORT}                         
-║   URL: http://localhost:${PORT}        
-╚════════════════════════════════════════╝
+========================================
+  Server running in ${NODE_ENV} mode   
+  Port: ${PORT}                         
+  URL: http://localhost:${PORT}        
+========================================
   `);
 });
 

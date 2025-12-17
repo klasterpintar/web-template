@@ -1,11 +1,18 @@
-import { useState, useEffect } from 'react';
-import { userAPI } from '../api/axios';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { userAPI, User, UserCreateData } from '../api/axios';
+import { AxiosError } from 'axios';
 
-function ExampleComponent() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [formData, setFormData] = useState({
+interface ErrorResponse {
+  error?: {
+    message?: string;
+  };
+}
+
+function ExampleComponent(): JSX.Element {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState<UserCreateData>({
     name: '',
     email: '',
   });
@@ -13,14 +20,15 @@ function ExampleComponent() {
   /**
    * Fetch all users from the API
    */
-  const fetchUsers = async () => {
+  const fetchUsers = async (): Promise<void> => {
     try {
       setLoading(true);
       setError(null);
       const response = await userAPI.getAll();
       setUsers(response.data.data);
     } catch (err) {
-      setError(err.response?.data?.error?.message || 'Failed to fetch users');
+      const axiosError = err as AxiosError<ErrorResponse>;
+      setError(axiosError.response?.data?.error?.message || 'Failed to fetch users');
       console.error('Error fetching users:', err);
     } finally {
       setLoading(false);
@@ -30,7 +38,7 @@ function ExampleComponent() {
   /**
    * Handle form input changes
    */
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -41,7 +49,7 @@ function ExampleComponent() {
   /**
    * Handle form submission to create new user
    */
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     
     if (!formData.name || !formData.email) {
@@ -60,7 +68,8 @@ function ExampleComponent() {
       // Refresh user list
       await fetchUsers();
     } catch (err) {
-      setError(err.response?.data?.error?.message || 'Failed to create user');
+      const axiosError = err as AxiosError<ErrorResponse>;
+      setError(axiosError.response?.data?.error?.message || 'Failed to create user');
       console.error('Error creating user:', err);
     } finally {
       setLoading(false);
@@ -70,7 +79,7 @@ function ExampleComponent() {
   /**
    * Handle user deletion
    */
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number): Promise<void> => {
     if (!window.confirm('Are you sure you want to delete this user?')) {
       return;
     }
@@ -83,7 +92,8 @@ function ExampleComponent() {
       // Refresh user list
       await fetchUsers();
     } catch (err) {
-      setError(err.response?.data?.error?.message || 'Failed to delete user');
+      const axiosError = err as AxiosError<ErrorResponse>;
+      setError(axiosError.response?.data?.error?.message || 'Failed to delete user');
       console.error('Error deleting user:', err);
     } finally {
       setLoading(false);

@@ -1,5 +1,5 @@
-function Footer() {
-  const currentYear = new Date().getFullYear();
+function Footer(): JSX.Element {
+  const currentYear: number = new Date().getFullYear();
 
   return (
     <footer className="bg-gray-800 text-white mt-auto">

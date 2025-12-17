@@ -1,6 +1,6 @@
 import ExampleComponent from '../components/ExampleComponent';
 
-function Home() {
+function Home(): JSX.Element {
   return (
     <div className="py-12">
       <div className="container mx-auto px-4">

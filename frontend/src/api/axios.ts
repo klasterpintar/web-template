@@ -1,10 +1,36 @@
-import axios from 'axios';
+import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+
+// Define types for User
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface UserCreateData {
+  name: string;
+  email: string;
+}
+
+export interface UserUpdateData {
+  name?: string;
+  email?: string;
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  count?: number;
+  message?: string;
+}
 
 // Get API URL from environment variables
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 // Create axios instance with default config
-const axiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_URL,
   timeout: 10000,
   headers: {
@@ -17,7 +43,7 @@ const axiosInstance = axios.create({
  * Add authentication token or other headers before request is sent
  */
 axiosInstance.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     // Add auth token if available
     // const token = localStorage.getItem('token');
     // if (token) {
@@ -70,19 +96,24 @@ axiosInstance.interceptors.response.use(
  */
 export const userAPI = {
   // Get all users
-  getAll: () => axiosInstance.get('/users'),
+  getAll: (): Promise<AxiosResponse<ApiResponse<User[]>>> => 
+    axiosInstance.get('/users'),
   
   // Get user by ID
-  getById: (id) => axiosInstance.get(`/users/${id}`),
+  getById: (id: number | string): Promise<AxiosResponse<ApiResponse<User>>> => 
+    axiosInstance.get(`/users/${id}`),
   
   // Create new user
-  create: (userData) => axiosInstance.post('/users', userData),
+  create: (userData: UserCreateData): Promise<AxiosResponse<ApiResponse<User>>> => 
+    axiosInstance.post('/users', userData),
   
   // Update user
-  update: (id, userData) => axiosInstance.put(`/users/${id}`, userData),
+  update: (id: number | string, userData: UserUpdateData): Promise<AxiosResponse<ApiResponse<User>>> => 
+    axiosInstance.put(`/users/${id}`, userData),
   
   // Delete user
-  delete: (id) => axiosInstance.delete(`/users/${id}`),
+  delete: (id: number | string): Promise<AxiosResponse<ApiResponse<{ id: string | number }>>> => 
+    axiosInstance.delete(`/users/${id}`),
 };
 
 export default axiosInstance;

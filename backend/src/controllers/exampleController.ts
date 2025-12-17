@@ -1,11 +1,24 @@
+import { Request, Response, NextFunction } from 'express';
 import db from '../config/database.js';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+interface CustomError extends Error {
+  statusCode?: number;
+}
 
 /**
  * Get all users from the database
  */
-export const getAllUsers = async (req, res, next) => {
+export const getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const users = await db('users').select('*').orderBy('created_at', 'desc');
+    const users = await db<User>('users').select('*').orderBy('created_at', 'desc');
     
     res.status(200).json({
       success: true,
@@ -20,14 +33,14 @@ export const getAllUsers = async (req, res, next) => {
 /**
  * Get a single user by ID
  */
-export const getUserById = async (req, res, next) => {
+export const getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
     
-    const user = await db('users').where({ id }).first();
+    const user = await db<User>('users').where({ id }).first();
     
     if (!user) {
-      const error = new Error('User not found');
+      const error: CustomError = new Error('User not found');
       error.statusCode = 404;
       return next(error);
     }
@@ -44,13 +57,13 @@ export const getUserById = async (req, res, next) => {
 /**
  * Create a new user
  */
-export const createUser = async (req, res, next) => {
+export const createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { name, email } = req.body;
+    const { name, email }: { name: string; email: string } = req.body;
     
     // Validation
     if (!name || !email) {
-      const error = new Error('Name and email are required');
+      const error: CustomError = new Error('Name and email are required');
       error.statusCode = 400;
       return next(error);
     }
@@ -58,7 +71,7 @@ export const createUser = async (req, res, next) => {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      const error = new Error('Invalid email format');
+      const error: CustomError = new Error('Invalid email format');
       error.statusCode = 400;
       return next(error);
     }
@@ -72,7 +85,7 @@ export const createUser = async (req, res, next) => {
     });
     
     // Fetch the created user
-    const newUser = await db('users').where({ id: userId }).first();
+    const newUser = await db<User>('users').where({ id: userId }).first();
     
     res.status(201).json({
       success: true,
@@ -87,29 +100,29 @@ export const createUser = async (req, res, next) => {
 /**
  * Update an existing user
  */
-export const updateUser = async (req, res, next) => {
+export const updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
-    const { name, email } = req.body;
+    const { name, email }: { name?: string; email?: string } = req.body;
     
     // Check if user exists
-    const existingUser = await db('users').where({ id }).first();
+    const existingUser = await db<User>('users').where({ id }).first();
     
     if (!existingUser) {
-      const error = new Error('User not found');
+      const error: CustomError = new Error('User not found');
       error.statusCode = 404;
       return next(error);
     }
     
     // Prepare update data
-    const updateData = { updated_at: db.fn.now() };
+    const updateData: Partial<User> & { updated_at?: any } = { updated_at: db.fn.now() };
     
     if (name) updateData.name = name;
     if (email) {
       // Validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        const error = new Error('Invalid email format');
+        const error: CustomError = new Error('Invalid email format');
         error.statusCode = 400;
         return next(error);
       }
@@ -120,7 +133,7 @@ export const updateUser = async (req, res, next) => {
     await db('users').where({ id }).update(updateData);
     
     // Fetch updated user
-    const updatedUser = await db('users').where({ id }).first();
+    const updatedUser = await db<User>('users').where({ id }).first();
     
     res.status(200).json({
       success: true,
@@ -135,15 +148,15 @@ export const updateUser = async (req, res, next) => {
 /**
  * Delete a user
  */
-export const deleteUser = async (req, res, next) => {
+export const deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
     
     // Check if user exists
-    const user = await db('users').where({ id }).first();
+    const user = await db<User>('users').where({ id }).first();
     
     if (!user) {
-      const error = new Error('User not found');
+      const error: CustomError = new Error('User not found');
       error.statusCode = 404;
       return next(error);
     }

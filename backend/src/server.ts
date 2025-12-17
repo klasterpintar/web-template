@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Request logging middleware (development only)
 if (NODE_ENV === 'development') {
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     console.log(`${req.method} ${req.path}`);
     next();
   });
@@ -41,7 +41,7 @@ if (NODE_ENV === 'development') {
  * Health check endpoint
  * Used to verify the server is running
  */
-app.get('/health', (req, res) => {
+app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: 'Server is healthy',
@@ -58,8 +58,8 @@ app.use('/api', routes);
 /**
  * 404 handler - catch all undefined routes
  */
-app.use((req, res, next) => {
-  const error = new Error('Route not found');
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const error: any = new Error('Route not found');
   error.statusCode = 404;
   next(error);
 });

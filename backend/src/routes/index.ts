@@ -1,13 +1,13 @@
-import express from 'express';
+import express, { Request, Response, Router } from 'express';
 import exampleRoutes from './exampleRoutes.js';
 
-const router = express.Router();
+const router: Router = express.Router();
 
 /**
  * Root API endpoint
  * Returns welcome message and API information
  */
-router.get('/', (req, res) => {
+router.get('/', (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: 'Welcome to Web Template API',

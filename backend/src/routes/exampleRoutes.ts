@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import {
   getAllUsers,
   getUserById,
@@ -7,7 +7,7 @@ import {
   deleteUser,
 } from '../controllers/exampleController.js';
 
-const router = express.Router();
+const router: Router = express.Router();
 
 /**
  * @route   GET /api/users

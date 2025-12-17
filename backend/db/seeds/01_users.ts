@@ -1,9 +1,9 @@
+import { Knex } from 'knex';
+
 /**
  * Seed users table with sample data
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
  */
-export const seed = async (knex) => {
+export const seed = async (knex: Knex): Promise<void> => {
   // Clear existing entries
   await knex('users').del();
   

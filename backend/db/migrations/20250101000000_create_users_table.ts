@@ -1,9 +1,9 @@
+import { Knex } from 'knex';
+
 /**
  * Create users table migration
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
  */
-export const up = async (knex) => {
+export const up = async (knex: Knex): Promise<void> => {
   return knex.schema.createTable('users', (table) => {
     table.increments('id').primary();
     table.string('name', 255).notNullable();
@@ -18,9 +18,7 @@ export const up = async (knex) => {
 
 /**
  * Drop users table migration
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
  */
-export const down = async (knex) => {
+export const down = async (knex: Knex): Promise<void> => {
   return knex.schema.dropTableIfExists('users');
 };

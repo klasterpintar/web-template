@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { Knex } from 'knex';
 
 // Load environment variables
 dotenv.config();
@@ -8,11 +9,14 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+interface KnexConfig {
+  [key: string]: Knex.Config;
+}
+
 /**
  * Knex configuration for different environments
- * @type { Object.<string, import("knex").Knex.Config> }
  */
-const config = {
+const config: KnexConfig = {
   development: {
     client: 'mysql2',
     connection: {

@@ -1,15 +1,34 @@
+import { Request, Response, NextFunction } from 'express';
+
+interface CustomError extends Error {
+  statusCode?: number;
+  code?: string;
+  sqlMessage?: string;
+  details?: any;
+}
+
+interface ErrorResponse {
+  success: boolean;
+  error: {
+    message: string;
+    statusCode: number;
+    details?: any;
+    stack?: string;
+  };
+}
+
 /**
  * Global error handling middleware
  * Catches and formats errors before sending response to client
  */
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err: CustomError, req: Request, res: Response, next: NextFunction): void => {
   // Log error for debugging
   console.error('Error:', err);
 
   // Default error status and message
   let statusCode = err.statusCode || 500;
   let message = err.message || 'Internal Server Error';
-  let details = null;
+  let details: any = null;
 
   // Handle specific database errors
   if (err.code === 'ER_DUP_ENTRY') {
@@ -45,7 +64,7 @@ const errorHandler = (err, req, res, next) => {
   }
 
   // Prepare error response
-  const errorResponse = {
+  const errorResponse: ErrorResponse = {
     success: false,
     error: {
       message,

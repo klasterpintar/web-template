@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function Header(): JSX.Element {
+function Header() {
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <nav className="container mx-auto px-4 py-4">

@@ -15,10 +15,10 @@ A modern, production-ready full-stack web development template built with **Type
 
 ### Frontend
 - **TypeScript** - Type-safe JavaScript
-- **React 18** - Modern UI library
+- **React 19** - Latest version of the modern UI library
 - **Vite** - Next-generation frontend tooling
 - **Tailwind CSS** - Utility-first CSS framework
-- **React Router** - Client-side routing
+- **React Router v6** - Client-side routing
 - **Axios** - Promise-based HTTP client
 
 ## 📋 Prerequisites

@@ -1,4 +1,4 @@
-function About(): JSX.Element {
+function About() {
   return (
     <div className="py-12">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -78,7 +78,7 @@ function About(): JSX.Element {
                 <li className="flex items-start">
                   <span className="text-primary-600 mr-2">•</span>
                   <span className="text-gray-700">
-                    <strong>React 18:</strong> Modern UI library with hooks
+                    <strong>React 19:</strong> Latest version with modern hooks and optimizations
                   </span>
                 </li>
                 <li className="flex items-start">

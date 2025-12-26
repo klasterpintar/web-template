@@ -4,7 +4,7 @@ import Footer from './components/common/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 
-function App(): JSX.Element {
+function App() {
   return (
     <Router>
       <div className="min-h-screen flex flex-col">

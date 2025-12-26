@@ -8,7 +8,7 @@ interface ErrorResponse {
   };
 }
 
-function ExampleComponent(): JSX.Element {
+function ExampleComponent() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

@@ -74,9 +74,13 @@ app.use(errorHandler);
  * Start server
  */
 app.listen(PORT, () => {
+  // Detect if running with Bun
+  const runtime = typeof Bun !== 'undefined' ? `Bun v${Bun.version}` : 'Node.js';
+  
   console.log(`
 ========================================
-  Server running in ${NODE_ENV} mode   
+  🚀 Server running with ${runtime}
+  Environment: ${NODE_ENV}   
   Port: ${PORT}                         
   URL: http://localhost:${PORT}        
 ========================================

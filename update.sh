@@ -79,9 +79,9 @@ print_info "Reloading PM2 processes (zero-downtime)..."
 pm2 reload web-template-backend
 print_success "Backend reloaded"
 
-# Reload frontend
-pm2 reload web-template-frontend
-print_success "Frontend reloaded"
+# Restart frontend (fork mode doesn't support reload)
+pm2 restart web-template-frontend
+print_success "Frontend restarted"
 
 # Save PM2 process list
 pm2 save

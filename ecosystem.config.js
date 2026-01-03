@@ -3,7 +3,6 @@ module.exports = {
     {
       name: 'web-template-backend',
       script: './backend/dist/server.js',
-      cwd: '/home/runner/work/web-template/web-template',
       instances: 2,
       exec_mode: 'cluster',
       watch: false,
@@ -28,7 +27,7 @@ module.exports = {
       name: 'web-template-frontend',
       script: 'serve',
       args: '-s dist -l 3000',
-      cwd: '/home/runner/work/web-template/web-template/frontend',
+      cwd: './frontend',
       instances: 1,
       exec_mode: 'fork',
       watch: false,

@@ -74,9 +74,15 @@ app.use(errorHandler);
  * Start server
  */
 app.listen(PORT, () => {
+  // Detect if running with Bun (check for Bun global)
+  // Using globalThis with type checking to avoid TypeScript errors
+  const bunGlobal = (globalThis as any).Bun;
+  const runtime = bunGlobal ? `Bun v${bunGlobal.version}` : 'Node.js';
+  
   console.log(`
 ========================================
-  Server running in ${NODE_ENV} mode   
+  🚀 Server running with ${runtime}
+  Environment: ${NODE_ENV}   
   Port: ${PORT}                         
   URL: http://localhost:${PORT}        
 ========================================

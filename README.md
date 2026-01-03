@@ -5,8 +5,8 @@ A modern, production-ready full-stack web development template built with **Type
 ## 🚀 Tech Stack
 
 ### Backend
+- **Bun.js** - Fast JavaScript runtime with performance improvements over Node.js
 - **TypeScript** - Type-safe JavaScript
-- **Node.js** - JavaScript runtime
 - **Express** - Fast, minimalist web framework
 - **MySQL** - Reliable relational database
 - **Knex.js** - SQL query builder and migration tool
@@ -25,8 +25,8 @@ A modern, production-ready full-stack web development template built with **Type
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js** (v16 or higher) - [Download](https://nodejs.org/)
-- **npm** or **yarn** - Comes with Node.js
+- **Bun** (v1.0 or higher) - [Install Bun](https://bun.sh/docs/installation)
+  - **Or Node.js** (v16 or higher) if you prefer - [Download](https://nodejs.org/)
 - **MySQL** (v5.7 or higher) - [Download](https://dev.mysql.com/downloads/)
 
 ## 🛠️ Installation
@@ -44,8 +44,8 @@ cd web-template
 # Navigate to backend directory
 cd backend
 
-# Install dependencies
-npm install
+# Install dependencies with Bun (much faster than npm!)
+bun install
 
 # Create .env file from example
 cp .env.example .env
@@ -53,6 +53,8 @@ cp .env.example .env
 # Edit .env with your database credentials
 # nano .env or use your preferred editor
 ```
+
+> **Note**: If you prefer Node.js, you can use `npm install` instead of `bun install`. The backend is compatible with both runtimes!
 
 ### 3. Frontend Setup
 
@@ -91,14 +93,14 @@ exit;
 cd backend
 
 # Run migrations to create tables
-npm run migrate
+bun run migrate
 ```
 
 ### 3. Seed Database (Optional)
 
 ```bash
 # Seed database with sample data
-npm run seed
+bun run seed
 ```
 
 ## 🏃 Running the Application
@@ -109,20 +111,22 @@ npm run seed
 # From backend directory
 cd backend
 
-# Development mode (with auto-reload using tsx)
-npm run dev
+# Development mode with hot reload (Bun's built-in watch mode)
+bun run dev
 
-# Build TypeScript
-npm run build
+# Build TypeScript (optional with Bun)
+bun run build
 
-# Production mode (requires build first)
-npm start
+# Production mode (Bun runs TypeScript directly)
+bun start
 
 # Type check
-npm run type-check
+bun run type-check
 ```
 
-The backend server will start on `http://localhost:5000`
+> **Using Node.js instead?** Replace `bun` with `npm` in the commands above.
+
+The backend server will start on `http://localhost:5000` with **Bun.js runtime** for blazing fast performance! 🚀
 
 ### Start Frontend Development Server
 
@@ -141,6 +145,49 @@ npm run type-check
 ```
 
 The frontend will start on `http://localhost:5173` and automatically open in your browser.
+
+## ⚡ Why Bun?
+
+This template uses **Bun.js** for the backend, providing significant performance improvements:
+
+### 🚀 Performance Benefits
+- ⚡ **2-3x faster startup time** compared to Node.js
+- 📦 **10-25x faster package installation** than npm (varies by project)
+- 🔥 **Instant hot reload** with built-in `--watch` flag
+- 💾 **Lower memory usage** - More efficient runtime
+
+*Based on [official Bun benchmarks](https://bun.sh/blog/bun-v1.0#performance). Actual results vary by hardware and project characteristics.*
+
+### 🛠️ Developer Experience
+- 🧪 **Built-in test runner** - No need for Jest or Mocha
+- 📦 **Built-in package manager** - Faster than npm/yarn/pnpm
+- 🔄 **Native TypeScript support** - No compilation needed for development
+- 🎯 **Drop-in Node.js replacement** - Compatible with npm packages
+- 🔨 **All-in-one toolkit** - Bundler, test runner, package manager
+
+### 📥 Installing Bun
+
+**macOS/Linux:**
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+powershell -c "irm bun.sh/install.ps1 | iex"
+```
+
+**Verify installation:**
+```bash
+bun --version
+```
+
+### 🔄 Node.js Compatibility
+
+Don't want to use Bun? No problem! The backend is fully compatible with Node.js:
+- Simply use `npm install` instead of `bun install`
+- Use `npm run dev` instead of `bun run dev`
+- All functionality remains the same
 
 ## 📁 Project Structure
 
@@ -265,17 +312,20 @@ VITE_API_URL=http://localhost:5000/api
 
 ## 📜 Available Scripts
 
-### Backend Scripts
+### Backend Scripts (with Bun)
 
 | Script | Command | Description |
 |--------|---------|-------------|
-| build | `npm run build` | Compile TypeScript to JavaScript |
-| start | `npm start` | Start production server (requires build) |
-| dev | `npm run dev` | Start development server with auto-reload (tsx) |
-| migrate | `npm run migrate` | Run database migrations |
-| rollback | `npm run rollback` | Rollback last migration |
-| seed | `npm run seed` | Seed database with sample data |
-| type-check | `npm run type-check` | Check TypeScript types without emitting |
+| install | `bun install` | Install dependencies (much faster than npm!) |
+| dev | `bun run dev` | Start development server with hot reload |
+| start | `bun start` | Start production server (runs TypeScript directly) |
+| build | `bun run build` | Compile TypeScript (optional with Bun) |
+| migrate | `bun run migrate` | Run database migrations |
+| rollback | `bun run rollback` | Rollback last migration |
+| seed | `bun run seed` | Seed database with sample data |
+| type-check | `bun run type-check` | Check TypeScript types without emitting |
+
+> **Note**: Replace `bun` with `npm` if using Node.js instead.
 
 ### Frontend Scripts
 
@@ -289,17 +339,20 @@ VITE_API_URL=http://localhost:5000/api
 
 ## 🎨 Features
 
+- ✅ **Bun.js Runtime** - Faster backend with native TypeScript support
 - ✅ **TypeScript** - Full type safety across backend and frontend
 - ✅ **RESTful API** - Clean API architecture following REST conventions
 - ✅ **Database Migrations** - Version control for database schema
 - ✅ **Error Handling** - Comprehensive error handling and validation
 - ✅ **CORS Configuration** - Ready for cross-origin requests
 - ✅ **Environment Variables** - Secure configuration management
+- ✅ **Hot Reload** - Fast development feedback with Bun's `--watch`
 - ✅ **Responsive Design** - Mobile-first responsive UI
 - ✅ **React Router** - Client-side routing with React Router v6
 - ✅ **Tailwind CSS** - Utility-first styling with custom components
-- ✅ **Hot Module Replacement** - Fast development with Vite HMR
+- ✅ **Fast Package Management** - Lightning-fast installation with Bun
 - ✅ **Production Ready** - Optimized builds for deployment
+- ✅ **Backward Compatible** - Works with both Bun and Node.js
 
 ## 🧪 Development Workflow
 
@@ -319,12 +372,22 @@ VITE_API_URL=http://localhost:5000/api
 
 ## 🚢 Deployment
 
-### Backend Deployment
+### Backend Deployment (with Bun)
 
-1. Build TypeScript: `npm run build`
+**Option 1: Deploy with Bun (Recommended)**
+1. Install Bun on your server
 2. Set environment variables on your hosting platform
+3. Install dependencies: `bun install --production`
+4. Run migrations: `bun run migrate`
+5. Start the server: `bun start`
+
+**Option 2: Deploy with Node.js**
+1. Build TypeScript: `bun run build` or `npm run build`
+2. Set environment variables
 3. Run migrations: `npm run migrate`
-4. Start the server: `npm start`
+4. Start the server: `node dist/server.js`
+
+> **Note**: Bun is recommended for production as it uses less memory and starts faster!
 
 ### Frontend Deployment
 

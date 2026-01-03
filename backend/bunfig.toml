@@ -1,0 +1,15 @@
+# Bun configuration file
+
+[install]
+# Configure package installation
+registry = "https://registry.npmjs.org"
+optional = true
+dev = true
+
+[install.cache]
+# Cache configuration
+dir = "node_modules/.cache/bun"
+
+[run]
+# Runtime configuration
+bun = true

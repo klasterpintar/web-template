@@ -74,8 +74,9 @@ app.use(errorHandler);
  * Start server
  */
 app.listen(PORT, () => {
-  // Detect if running with Bun
-  const runtime = typeof Bun !== 'undefined' ? `Bun v${Bun.version}` : 'Node.js';
+  // Detect if running with Bun (using globalThis to avoid TypeScript errors)
+  const isBun = typeof (globalThis as any).Bun !== 'undefined';
+  const runtime = isBun ? `Bun v${(globalThis as any).Bun.version}` : 'Node.js';
   
   console.log(`
 ========================================

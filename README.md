@@ -151,10 +151,12 @@ The frontend will start on `http://localhost:5173` and automatically open in you
 This template uses **Bun.js** for the backend, providing significant performance improvements:
 
 ### 🚀 Performance Benefits
-- ⚡ **3x faster startup time** compared to Node.js (~100ms vs ~300ms)
-- 📦 **~25x faster package installation** than npm (~2s vs ~30s)
+- ⚡ **2-3x faster startup time** compared to Node.js
+- 📦 **10-25x faster package installation** than npm (varies by project)
 - 🔥 **Instant hot reload** with built-in `--watch` flag
-- 💾 **~50% lower memory usage** - More efficient runtime
+- 💾 **Lower memory usage** - More efficient runtime
+
+*Performance gains depend on your hardware and project size. Figures based on Bun's published benchmarks.*
 
 ### 🛠️ Developer Experience
 - 🧪 **Built-in test runner** - No need for Jest or Mocha
@@ -337,18 +339,18 @@ VITE_API_URL=http://localhost:5000/api
 
 ## 🎨 Features
 
-- ✅ **Bun.js Runtime** - 3x faster backend with native TypeScript support
+- ✅ **Bun.js Runtime** - Faster backend with native TypeScript support
 - ✅ **TypeScript** - Full type safety across backend and frontend
 - ✅ **RESTful API** - Clean API architecture following REST conventions
 - ✅ **Database Migrations** - Version control for database schema
 - ✅ **Error Handling** - Comprehensive error handling and validation
 - ✅ **CORS Configuration** - Ready for cross-origin requests
 - ✅ **Environment Variables** - Secure configuration management
-- ✅ **Hot Reload** - Instant development feedback with Bun's `--watch`
+- ✅ **Hot Reload** - Fast development feedback with Bun's `--watch`
 - ✅ **Responsive Design** - Mobile-first responsive UI
 - ✅ **React Router** - Client-side routing with React Router v6
 - ✅ **Tailwind CSS** - Utility-first styling with custom components
-- ✅ **Fast Builds** - Lightning-fast package installation with Bun
+- ✅ **Fast Package Management** - Lightning-fast installation with Bun
 - ✅ **Production Ready** - Optimized builds for deployment
 - ✅ **Backward Compatible** - Works with both Bun and Node.js
 

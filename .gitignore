@@ -18,6 +18,12 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# PM2 logs and files
+.pm2/
+pm2.log
+*.pid
+pids/
+
 # Build output
 dist/
 build/

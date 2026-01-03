@@ -319,14 +319,301 @@ VITE_API_URL=http://localhost:5000/api
 
 ## 🚢 Deployment
 
-### Backend Deployment
+### Production Deployment with PM2
+
+This project includes PM2 process manager configuration for production deployment with features like cluster mode, automatic restart, monitoring, and zero-downtime updates.
+
+#### Prerequisites
+
+Before deploying to production, ensure you have:
+
+- **Node.js** (v16 or higher)
+- **npm** or **yarn**
+- **MySQL** database configured
+- **PM2** installed globally: `npm install -g pm2`
+- (Optional) **Nginx** for reverse proxy
+
+#### Quick Deployment
+
+1. **Clone and Setup**
+   ```bash
+   git clone <repository-url>
+   cd web-template
+   ```
+
+2. **Configure Environment Variables**
+   ```bash
+   # Backend
+   cp backend/.env.example backend/.env
+   # Edit backend/.env with your production settings
+   
+   # Frontend
+   cp frontend/.env.example frontend/.env
+   # Edit frontend/.env with your production API URL
+   ```
+
+3. **Run Deployment Script**
+   ```bash
+   bash deploy.sh
+   ```
+
+This script will:
+- Install all dependencies
+- Run database migrations
+- Build backend and frontend
+- Start PM2 processes in cluster mode
+- Configure automatic restart
+
+#### PM2 Configuration
+
+The `ecosystem.config.js` file configures:
+
+**Backend (API Server)**
+- Runs in **cluster mode** with 2 instances
+- Port: 5000
+- Memory limit: 500MB
+- Automatic restart on crash
+- Load balanced across instances
+
+**Frontend (Static Files)**
+- Served using `serve` package
+- Port: 3000
+- Memory limit: 300MB
+- Single instance (fork mode)
+
+#### Available Scripts
+
+```bash
+# Full deployment (initial or clean deploy)
+bash deploy.sh
+
+# Zero-downtime update (pull changes, rebuild, reload)
+bash update.sh
+
+# Stop all processes gracefully
+bash stop.sh
+```
+
+#### PM2 Management Commands
+
+```bash
+# View status of all processes
+pm2 status
+
+# View real-time logs
+pm2 logs
+
+# View logs for specific app
+pm2 logs web-template-backend
+pm2 logs web-template-frontend
+
+# Monitor CPU and memory usage
+pm2 monit
+
+# Restart specific process
+pm2 restart web-template-backend
+pm2 restart web-template-frontend
+
+# Reload with zero downtime (cluster mode)
+pm2 reload web-template-backend
+
+# Stop processes
+pm2 stop all
+pm2 stop web-template-backend
+pm2 stop web-template-frontend
+
+# Delete processes from PM2
+pm2 delete all
+pm2 delete web-template-backend
+pm2 delete web-template-frontend
+
+# Save PM2 process list
+pm2 save
+
+# Resurrect saved processes (after reboot)
+pm2 resurrect
+```
+
+#### Auto-start on System Boot
+
+To make your application start automatically on system reboot:
+
+```bash
+# Generate startup script
+pm2 startup
+
+# Follow the instructions shown (may need sudo)
+# Then save the current process list
+pm2 save
+```
+
+#### Nginx Reverse Proxy Setup
+
+An example Nginx configuration is provided in `nginx.conf`. To use it:
+
+1. **Install Nginx**
+   ```bash
+   sudo apt-get update
+   sudo apt-get install nginx
+   ```
+
+2. **Copy configuration**
+   ```bash
+   sudo cp nginx.conf /etc/nginx/sites-available/web-template
+   sudo ln -s /etc/nginx/sites-available/web-template /etc/nginx/sites-enabled/
+   ```
+
+3. **Edit the configuration**
+   ```bash
+   sudo nano /etc/nginx/sites-available/web-template
+   # Update server_name with your domain
+   ```
+
+4. **Test and reload Nginx**
+   ```bash
+   sudo nginx -t
+   sudo systemctl reload nginx
+   ```
+
+The Nginx config provides:
+- Reverse proxy for backend API (port 5000)
+- Reverse proxy for frontend (port 3000)
+- Static file caching
+- SSL/TLS support (commented out, configure as needed)
+- Security headers
+- Load balancing
+
+#### Monitoring and Logs
+
+**PM2 Logs**
+- Backend logs: `backend/logs/`
+- Frontend logs: `frontend/logs/`
+
+**View logs in real-time**
+```bash
+# All applications
+pm2 logs
+
+# Specific application
+pm2 logs web-template-backend --lines 100
+
+# Error logs only
+pm2 logs --err
+```
+
+**PM2 Web Dashboard**
+```bash
+# Install PM2 web interface
+pm2 install pm2-server-monit
+
+# Or use keymetrics for advanced monitoring
+pm2 link <secret> <public>
+```
+
+#### Troubleshooting
+
+**Problem: Application won't start**
+```bash
+# Check PM2 logs
+pm2 logs
+
+# Check if ports are available
+sudo lsof -i :5000
+sudo lsof -i :3000
+
+# Verify .env files exist
+ls -la backend/.env
+ls -la frontend/.env
+```
+
+**Problem: Database connection fails**
+```bash
+# Test database connection
+mysql -h <host> -u <user> -p <database>
+
+# Verify environment variables
+cd backend && cat .env
+```
+
+**Problem: Out of memory**
+```bash
+# Check memory usage
+pm2 monit
+
+# Increase memory limit in ecosystem.config.js
+# max_memory_restart: '500M' -> '1G'
+```
+
+**Problem: Port already in use**
+```bash
+# Find process using the port
+sudo lsof -i :5000
+sudo lsof -i :3000
+
+# Kill the process or change port in config
+```
+
+**Problem: Zero-downtime reload not working**
+```bash
+# Ensure cluster mode is enabled (check ecosystem.config.js)
+# Use reload instead of restart
+pm2 reload web-template-backend
+
+# Restart if reload fails
+pm2 restart web-template-backend
+```
+
+#### Environment-Specific Deployment
+
+**Staging Environment**
+```bash
+# Update ecosystem.config.js with staging config
+# Or use PM2 ecosystem environments
+pm2 start ecosystem.config.js --env staging
+```
+
+**Production Environment**
+```bash
+pm2 start ecosystem.config.js --env production
+```
+
+#### Best Practices
+
+1. **Always use environment variables** for sensitive data
+2. **Run database migrations** before starting the application
+3. **Use zero-downtime reload** (`pm2 reload`) for updates
+4. **Monitor memory and CPU usage** regularly with `pm2 monit`
+5. **Set up log rotation** to prevent disk space issues
+6. **Use Nginx** as a reverse proxy for better performance
+7. **Enable PM2 startup** for automatic recovery after reboot
+8. **Backup database** before running migrations
+
+#### Log Rotation
+
+PM2 includes a log rotation module:
+
+```bash
+# Install PM2 log rotate
+pm2 install pm2-logrotate
+
+# Configure rotation settings
+pm2 set pm2-logrotate:max_size 10M
+pm2 set pm2-logrotate:retain 30
+pm2 set pm2-logrotate:compress true
+```
+
+### Manual Deployment (Alternative)
+
+If you prefer not to use PM2:
+
+#### Backend Deployment
 
 1. Build TypeScript: `npm run build`
 2. Set environment variables on your hosting platform
 3. Run migrations: `npm run migrate`
 4. Start the server: `npm start`
 
-### Frontend Deployment
+#### Frontend Deployment
 
 1. Build the application: `npm run build` (includes TypeScript compilation)
 2. Deploy the `dist/` folder to your static hosting service (Netlify, Vercel, etc.)

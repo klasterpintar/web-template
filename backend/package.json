@@ -39,7 +39,7 @@
   },
   "bun": {
     "install": {
-      "production": false
+      "production": true
     }
   }
 }

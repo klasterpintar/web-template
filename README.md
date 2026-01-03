@@ -5,7 +5,7 @@ A modern, production-ready full-stack web development template built with **Type
 ## 🚀 Tech Stack
 
 ### Backend
-- **Bun.js** - Fast JavaScript runtime (3x faster than Node.js)
+- **Bun.js** - Fast JavaScript runtime with performance improvements over Node.js
 - **TypeScript** - Type-safe JavaScript
 - **Express** - Fast, minimalist web framework
 - **MySQL** - Reliable relational database
@@ -156,7 +156,7 @@ This template uses **Bun.js** for the backend, providing significant performance
 - 🔥 **Instant hot reload** with built-in `--watch` flag
 - 💾 **Lower memory usage** - More efficient runtime
 
-*Performance gains depend on your hardware and project size. Figures based on Bun's published benchmarks.*
+*Based on [official Bun benchmarks](https://bun.sh/blog/bun-v1.0#performance). Actual results vary by hardware and project characteristics.*
 
 ### 🛠️ Developer Experience
 - 🧪 **Built-in test runner** - No need for Jest or Mocha

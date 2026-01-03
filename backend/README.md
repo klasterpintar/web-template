@@ -28,14 +28,14 @@ This backend uses Bun instead of Node.js for better performance:
 
 | Feature | Bun | Node.js |
 |---------|-----|---------|
-| Startup Time | 2-3x faster | Baseline |
+| Startup Time | 2-3x faster* | Baseline |
 | Package Install | ~10-25x faster* | Baseline |
 | Memory Usage | Typically lower | Higher |
 | TypeScript | Native support | Needs compilation |
 | Watch Mode | Built-in `--watch` | Needs nodemon/tsx |
 | Built-in Tools | Bundler, Test runner | Needs external tools |
 
-*Performance improvements vary based on project size and system specifications. These are approximate figures based on Bun's benchmarks.
+*Based on [official Bun benchmarks](https://bun.sh/blog/bun-v1.0#performance). Actual performance varies by project size, hardware, and workload.
 
 ## 📦 Available Scripts
 
@@ -99,7 +99,7 @@ Bun runs TypeScript files directly without compilation:
 - **Hot reload**: Near-instant with `bun --watch`
 - **Memory footprint**: Generally lower than Node.js (varies by workload)
 
-*Note: Performance improvements depend on your specific hardware, project size, and workload. These are approximate figures based on Bun's published benchmarks.*
+*Based on [official Bun benchmarks](https://bun.sh/blog/bun-v1.0#performance). Performance improvements depend on your hardware, project size, and specific workload.*
 
 ### Developer Experience
 - Built-in watch mode - no need for nodemon or tsx
